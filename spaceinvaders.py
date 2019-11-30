@@ -1,5 +1,6 @@
 import turtle
 import os
+import math
 
 #Set up the screen
 wn = turtle.Screen()
@@ -67,6 +68,13 @@ def fire_bullet():
     bullet.setposition(x, y)
     bullet.showturtle()
 
+def isCollision(t1, t2):
+    distance =  math.sqrt(math.pow(t1.xcor()-t2.xcor(),2)+math.pow(t1.ycor()-t2.ycor(),2))
+    if distance < 15:
+        return True
+    else: 
+        return False
+
 #Move the player left and right
 def move_left():
     x = player.xcor()
@@ -119,5 +127,15 @@ while True:
     if bullet.ycor() > 275:
         bullet.hideturtle()
         bulletstate = "ready"
+    
+    #Check for collision between bullet and enemy
+    if isCollision(bullet, enemy):
+        #Reset the bullet
+        bullet.hideturtle()
+        bulletstate = "ready"
+        bullet.setposition(0, -400)
+        #Reset the enemy
+        enemy.setposition(-200,250)
+
 
 delay = input("press enter to finish")
